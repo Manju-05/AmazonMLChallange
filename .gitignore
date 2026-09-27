@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data & Large datasets
+student_resource/
+*.tsv
+*.csv
+*.parquet
+*.zip
+*.tar.gz
+
+# Model weights & large artifacts
+*.lgb
+*.model
+*.pkl
+*.bin
+output/*.tsv
+output/*.lgb
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.log
