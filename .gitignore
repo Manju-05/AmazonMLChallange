@@ -25,3 +25,4 @@ output/*.lgb
 .idea/
 .vscode/
 *.log
+scratch/
