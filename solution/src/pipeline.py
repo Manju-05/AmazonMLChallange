@@ -25,7 +25,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from config import (
     MATCHING_OUTPUT, CANDIDATE_OUTPUT, OUTPUT_DIR,
-    VALIDATION_SPLIT, RANDOM_SEED
+    VALIDATION_SPLIT, RANDOM_SEED,
+    TRAIN_SAMPLE_ENTITIES, VAL_SAMPLE_ENTITIES
 )
 from data_loader import (
     load_training_data, load_test_data,
@@ -92,7 +93,7 @@ def run_training_pipeline():
     s3 = preprocess_dataframe(s3, "S3 records")
     
     # ═══════════════════════════════════════════════
-    # PHASE 3: Validation Split
+    # PHASE 3: Validation Split & Stratified Sampling
     # ═══════════════════════════════════════════════
     print("\n" + "="*70)
     print(" PHASE 3: VALIDATION SPLIT")
@@ -105,6 +106,19 @@ def run_training_pipeline():
     
     del s1, gt  # free memory
     gc.collect()
+    
+    # Sample representative subsets for high-throughput model training & validation
+    if len(train_s1) > TRAIN_SAMPLE_ENTITIES:
+        print(f"  Sampling {TRAIN_SAMPLE_ENTITIES:,} representative training entities for feature matrix...")
+        train_s1 = train_s1.sample(n=TRAIN_SAMPLE_ENTITIES, random_state=RANDOM_SEED).reset_index(drop=True)
+        train_s1_id_set = set(train_s1["entity_id"].values)
+        train_gt_dict = {k: v for k, v in train_gt_dict.items() if k in train_s1_id_set}
+        
+    if len(val_s1) > VAL_SAMPLE_ENTITIES:
+        print(f"  Sampling {VAL_SAMPLE_ENTITIES:,} validation entities for threshold calibration...")
+        val_s1 = val_s1.sample(n=VAL_SAMPLE_ENTITIES, random_state=RANDOM_SEED).reset_index(drop=True)
+        val_s1_id_set = set(val_s1["entity_id"].values)
+        val_gt_dict = {k: v for k, v in val_gt_dict.items() if k in val_s1_id_set}
     
     # ═══════════════════════════════════════════════
     # PHASE 4: Blocking (Candidate Generation)

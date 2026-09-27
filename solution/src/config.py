@@ -128,16 +128,18 @@ ADDR_ABBREVIATIONS = {
 # ──────────────────────────────────────────────────────────
 TFIDF_MAX_FEATURES  = 100_000      # vocabulary size for TF-IDF
 TFIDF_NGRAM_RANGE   = (2, 4)       # character n-grams for language-agnostic matching
-BLOCKING_TOP_K      = 30           # top-K candidates per blocking strategy
-BLOCKING_MIN_SCORE  = 0.15         # minimum TF-IDF similarity to consider
+BLOCKING_TOP_K      = 25           # top-K candidates per blocking strategy
+BLOCKING_MIN_SCORE  = 0.20         # minimum TF-IDF similarity to consider
 
 # ──────────────────────────────────────────────────────────
 # Model & Evaluation
 # ──────────────────────────────────────────────────────────
-VALIDATION_SPLIT    = 0.2          # fraction of S1 entities for validation
-RANDOM_SEED         = 42
-F_BETA              = 0.5          # F_0.5 metric
-THRESHOLD_SWEEP     = [i/100 for i in range(10, 95, 1)]  # 0.10 to 0.94
+VALIDATION_SPLIT       = 0.2          # fraction of S1 entities for validation
+TRAIN_SAMPLE_ENTITIES  = 50_000       # representative training entities (~500k pairs for LightGBM)
+VAL_SAMPLE_ENTITIES    = 10_000       # validation entities for fast, precise threshold tuning
+RANDOM_SEED            = 42
+F_BETA                 = 0.5          # F_0.5 metric
+THRESHOLD_SWEEP        = [i/100 for i in range(10, 95, 1)]  # 0.10 to 0.94
 
 # ──────────────────────────────────────────────────────────
 # Resource Management
