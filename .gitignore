@@ -2,9 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+__MACOSX/
+*/__MACOSX/*
 
 # Data & Large datasets
-student_resource/
 *.tsv
 *.csv
 *.parquet
