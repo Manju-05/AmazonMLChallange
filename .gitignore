@@ -17,8 +17,17 @@ __MACOSX/
 *.model
 *.pkl
 *.bin
+
+# Output directories (TSV submissions)
+output/
+*/output/
 output/*.tsv
 output/*.lgb
+
+# Datasets and Resources (Student Resource folder)
+student_resource/
+dataset/
+*/dataset/
 
 # OS / IDE
 .DS_Store
